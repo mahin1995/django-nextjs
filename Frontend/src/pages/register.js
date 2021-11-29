@@ -3,10 +3,16 @@ import Layout from "../hocs/Layout";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "react-loader-spinner";
 import { register_action } from "../action/auth";
+import { useRouter } from "next/router";
+
 
 const RegisterPage = () => {
+  const router = useRouter();
+
   const dispatch = useDispatch();
   const register_success = useSelector((state) => state.auth.register_success);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
   const loading = useSelector((state) => state.auth.loading);
   const [formData, setFormData] = useState({ 
     first_name: "",
@@ -29,6 +35,8 @@ const RegisterPage = () => {
             re_password))
     }
   };
+  if (typeof window !== undefined && isAuthenticated) router.push("/dashboard");
+  if ( register_success) router.push("/login");
   return (
     <Layout title="Http only auth | Register" content="Register Page">
       <h1 className="display-4 mt-5">Register Page</h1>
@@ -107,7 +115,16 @@ const RegisterPage = () => {
             required
           />
         </div>
-        <button className="btn btn-primary mt-3"> Create account </button>
+        {loading?(
+            <div className="d-flex justify-conten-center align-items-center mt-5">
+                <Loader type="Oval"
+                color="#00bfff"
+                width={50}
+                height={50}
+                ></Loader>
+            </div>
+        ): <button className="btn btn-primary mt-3"> Create account </button>}
+        
       </form>
     </Layout>
   );

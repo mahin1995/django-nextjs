@@ -1,4 +1,4 @@
-import {REGISTER_SUCCESS,REGISTER_FAIL,SET_AUTH_LOADING,REMOVE_AUTH_LOADING,LOGIN_FAIL,LOGIN_SUCCESS} from './type'
+import {REGISTER_SUCCESS,REGISTER_FAIL,SET_AUTH_LOADING,REMOVE_AUTH_LOADING,LOGIN_FAIL,LOGIN_SUCCESS,RESET_REGISTER_SUCCESS} from './type'
 export const register_action=(
     first_name,
     last_name,
@@ -44,14 +44,47 @@ export const register_action=(
     })
 }
 
-export const login=(username,password)=>async dispatch=>{
+export const reset_register_success=()=>dispatch=>{
+    dispatch({
+        type:RESET_REGISTER_SUCCESS
+    })
+}
+
+
+export const login_action=(username,password)=>async dispatch=>{
     const body=JSON.stringify({
         username,password
     })
+    dispatch({
+        type:SET_AUTH_LOADING
+    })
     try{
-
+        const res=await fetch('api/account/login',{
+            method:'POST',
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body:body
+        })
+      
+        if(res.status===200){
+            dispatch({
+                type:LOGIN_SUCCESS
+            })
+        }
+        else{
+            dispatch({
+                type:LOGIN_FAIL
+            })
+        }
     }
     catch(e){
-        
+        dispatch({
+            type:LOGIN_FAIL
+        })
     }
+    dispatch({
+        type:REMOVE_AUTH_LOADING
+    })
 }

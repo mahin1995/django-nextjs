@@ -3,8 +3,9 @@ import {API_URL} from '../../../config/index'
 
 export default async (req,res)=>{
     if(req.method==='POST'){
-            const {ussername,password}=req.body;
-            const body =JSON.stringify({ussername,password})
+            const {username,password}=req.body;
+            const body =JSON.stringify({username,password})
+          
             try{
                     const  apiRes=await fetch(`${API_URL}/api/gettoken/`,{
                         method:'POST',
@@ -15,6 +16,7 @@ export default async (req,res)=>{
                         body:body 
                     })
                     const data=await apiRes.json();
+                    console.log(data)
                     if(apiRes.status===200){
                             res.setHeader('Set-Cookie',[
                                 cookie.serialize(
@@ -48,8 +50,8 @@ export default async (req,res)=>{
                     }
             }
             catch(e){
-                return res.status(apiRes.status).json({
-                    error:"Something went wrong when authenticating"
+                return res.status(500).json({
+                    error:`${e}+" ######  Something went wrong when authenticating"`
                 })
             }
     }else{
