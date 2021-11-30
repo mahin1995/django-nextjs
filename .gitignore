@@ -36,5 +36,5 @@ jspm_packages
 ./Forntend/npm
 
 # Optional REPL history
-.node_repl_history
-../Forntend/next
+./Forntend/node_repl_history
+./Forntend/next
