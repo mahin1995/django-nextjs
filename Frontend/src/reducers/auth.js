@@ -1,4 +1,4 @@
-import { REGISTER_FAIL, REGISTER_SUCCESS, REMOVE_AUTH_LOADING, SET_AUTH_LOADING,RESET_REGISTER_SUCCESS,LOGIN_SUCCESS,LOGIN_FAIL,LOGOUT_FAIL,LOGOUT_SUCCESS } from "../action/type";
+import { REGISTER_FAIL, REGISTER_SUCCESS, REMOVE_AUTH_LOADING, SET_AUTH_LOADING,RESET_REGISTER_SUCCESS,LOGIN_SUCCESS,LOGIN_FAIL,LOGOUT_FAIL,LOGOUT_SUCCESS,LOAD_USER_SUCCESS,LOAD_USER_FAIL } from "../action/type";
 
 const initialState ={
     user:null,
@@ -43,6 +43,16 @@ const authReducer=(state=initialState,action)=>{
             return{
                 ...state
             }
+        case LOAD_USER_SUCCESS:
+            return{
+                ...state,
+                user:payload.user
+            }
+        case LOAD_USER_FAIL:
+            return{
+                ...state,
+                user:null
+            }
         case SET_AUTH_LOADING:
             return{
                 ...state,
@@ -53,6 +63,7 @@ const authReducer=(state=initialState,action)=>{
                 ...state,
                 loading:false
             }
+
         default:
             return state;
     }

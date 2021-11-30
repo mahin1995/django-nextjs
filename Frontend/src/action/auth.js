@@ -1,4 +1,4 @@
-import {REGISTER_SUCCESS,REGISTER_FAIL,SET_AUTH_LOADING,REMOVE_AUTH_LOADING,LOGIN_FAIL,LOGIN_SUCCESS,RESET_REGISTER_SUCCESS,LOGOUT_FAIL, LOGOUT_SUCCESS} from './type'
+import {REGISTER_SUCCESS,REGISTER_FAIL,SET_AUTH_LOADING,REMOVE_AUTH_LOADING,LOGIN_FAIL,LOGIN_SUCCESS,RESET_REGISTER_SUCCESS,LOGOUT_FAIL, LOGOUT_SUCCESS,LOAD_USER_FAIL,LOAD_USER_SUCCESS} from './type'
 export const register_action=(
     first_name,
     last_name,
@@ -59,7 +59,7 @@ export const login_action=(username,password)=>async dispatch=>{
         type:SET_AUTH_LOADING
     })
     try{
-        const res=await fetch('api/account/login',{
+        const res=await fetch('/api/account/login',{
             method:'POST',
             headers:{
                 'Accept':'application/json',
@@ -72,6 +72,7 @@ export const login_action=(username,password)=>async dispatch=>{
             dispatch({
                 type:LOGIN_SUCCESS
             })
+          dispatch(load_user())
         }
         else{
             dispatch({
@@ -91,7 +92,7 @@ export const login_action=(username,password)=>async dispatch=>{
 
 export const logout_action=()=>async dispatch=>{
     try{
-        const res =await fetch('api/account/logout',{
+        const res =await fetch('/api/account/logout',{
             method:"POST",
             headers:{
                 'Accept':'application/json'
@@ -110,6 +111,33 @@ export const logout_action=()=>async dispatch=>{
     catch(e){
         dispatch({
             type:LOGOUT_FAIL
+        })
+    }
+}
+
+export const load_user=()=>async dispatch=>{
+    try{
+        const res=await fetch('/api/account/user',{
+            method:"GET",
+            headers:{
+                "Accept":'application/json'
+            }
+        })
+        const data=await res.json()
+        if(res.status===200){
+            dispatch({
+                type:LOAD_USER_SUCCESS,
+                payload:data
+            })
+        }else{
+            dispatch({
+                type:LOAD_USER_FAIL
+            })
+        }
+    }
+    catch(err){
+        dispatch({
+            type:LOAD_USER_FAIL
         })
     }
 }

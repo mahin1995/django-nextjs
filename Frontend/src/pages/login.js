@@ -37,7 +37,7 @@ useEffect(() => {
 
   if (typeof window !== undefined && isAuthenticated) router.push("/dashboard");
   return (
-    <Layout title="Http only auth | Register" content="Register Page">
+    <Layout title="Http only auth | Login" content="Login Page">
       <h1 className="display-4 mt-5">Login Page</h1>
 
       <form className="bg-light p-5 mt-5 mb-5" onSubmit={onFormSubmit}>

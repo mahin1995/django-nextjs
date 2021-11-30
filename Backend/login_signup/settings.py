@@ -25,7 +25,7 @@ SECRET_KEY = 'unmb_y&jb+u)**$2o=lq7#c20gfr02c1^z0fqw70+c)1(*)hy^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -142,9 +142,26 @@ USE_L10N = True
 USE_TZ = True
 
 CORS_ALLOWED_ORIGINS=[
-    'http://localhost:3000'
+    'http://localhost:3000',
+    "http://127.0.0.1:8000"
 ]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "POST",
+]
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
