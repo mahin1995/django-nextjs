@@ -23,13 +23,11 @@ export default async (req,res)=>{
                                     'access',data.access,{
                                         httpOnly:true,
                                         secure:process.env.NODE_ENV!=='development',
-                                        maxAge:60*30,
+                                        maxAge:60*60*24,
                                         sameSite:'strict',
                                         path:'/api/'
                                     }
-                                )
-                            ])
-                            res.setHeader('Set-Cookie',[
+                                ),
                                 cookie.serialize(
                                     'refresh',data.refresh,{
                                         httpOnly:true,
@@ -40,6 +38,7 @@ export default async (req,res)=>{
                                     }
                                 )
                             ])
+                     
                             return res.status(200).json({
                                 success:'Loged in sccessfully'
                             })

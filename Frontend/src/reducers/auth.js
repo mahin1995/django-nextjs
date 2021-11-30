@@ -1,4 +1,4 @@
-import { REGISTER_FAIL, REGISTER_SUCCESS, REMOVE_AUTH_LOADING, SET_AUTH_LOADING,RESET_REGISTER_SUCCESS,LOGIN_SUCCESS,LOGIN_FAIL } from "../action/type";
+import { REGISTER_FAIL, REGISTER_SUCCESS, REMOVE_AUTH_LOADING, SET_AUTH_LOADING,RESET_REGISTER_SUCCESS,LOGIN_SUCCESS,LOGIN_FAIL,LOGOUT_FAIL,LOGOUT_SUCCESS } from "../action/type";
 
 const initialState ={
     user:null,
@@ -33,6 +33,15 @@ const authReducer=(state=initialState,action)=>{
             return{
                 ...state,
                 isAuthenticated:false
+            }
+        case LOGOUT_SUCCESS:
+            return{
+                ...state,
+                isAuthenticated:false
+            }
+        case LOGOUT_FAIL:
+            return{
+                ...state
             }
         case SET_AUTH_LOADING:
             return{

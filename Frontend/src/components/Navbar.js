@@ -1,8 +1,65 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
-
+import { useSelector,useDispatch } from "react-redux";
+import { logout_action } from "../action/auth";
 const navbar = () => {
+   const dispatch = useDispatch()
+   const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
     const router=useRouter()
+    const logoutHandaler=()=>{
+        if(dispatch && dispatch !==null && dispatch !==undefined){
+          dispatch(logout_action())
+          // window.location.reload();
+        }
+    }
+    const authLink=(
+      <>
+      <li className="nav-item">
+      <Link href="/">
+        <a className={router.pathname==='/'?"nav-link active":"nav-link"} aria-current="page">
+          Home
+        </a>
+      </Link>
+    </li>
+    <li className="nav-item">
+      <Link href="/dashboard">
+        <a className="nav-link">Dashboard</a>
+      </Link>
+    </li>
+    <li className="nav-item">
+    
+        <a className="nav-link"
+        href='#!'
+        onClick={logoutHandaler}
+        >logout</a>
+      
+    </li>
+      </>
+    )
+    const guestLink=(
+<>
+<li className="nav-item">
+              <Link href="/">
+                <a className={router.pathname==='/'?"nav-link active":"nav-link"} aria-current="page">
+                  Home
+                </a>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link href="/login">
+                <a className="nav-link">Login</a>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link href="/register">
+                <a className="nav-link">register</a>
+              </Link>
+            </li>
+</>
+    )
+
+
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -22,35 +79,12 @@ const navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link href="/">
-                <a className={router.pathname==='/'?"nav-link active":"nav-link"} aria-current="page">
-                  Home
-                </a>
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link href="/login">
-                <a className="nav-link">Login</a>
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link href="/register">
-                <a className="nav-link">register</a>
-              </Link>
-            </li>
+      
+
+
+            {isAuthenticated?authLink:guestLink}
           </ul>
-          <form className="d-flex">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form>
+        
         </div>
       </div>
     </nav>
