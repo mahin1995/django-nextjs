@@ -8,7 +8,10 @@ const navbar = () => {
     const router=useRouter()
     const logoutHandaler=()=>{
         if(dispatch && dispatch !==null && dispatch !==undefined){
-          dispatch(logout_action())
+          dispatch(logout_action()).then(()=>{
+            router.push('/')
+          })
+
           // window.location.reload();
         }
     }

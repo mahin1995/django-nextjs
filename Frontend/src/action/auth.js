@@ -1,4 +1,4 @@
-import {REGISTER_SUCCESS,REGISTER_FAIL,SET_AUTH_LOADING,REMOVE_AUTH_LOADING,LOGIN_FAIL,LOGIN_SUCCESS,RESET_REGISTER_SUCCESS,LOGOUT_FAIL, LOGOUT_SUCCESS,LOAD_USER_FAIL,LOAD_USER_SUCCESS} from './type'
+import {REGISTER_SUCCESS,REGISTER_FAIL,SET_AUTH_LOADING,REMOVE_AUTH_LOADING,LOGIN_FAIL,LOGIN_SUCCESS,RESET_REGISTER_SUCCESS,LOGOUT_FAIL, LOGOUT_SUCCESS,LOAD_USER_FAIL,LOAD_USER_SUCCESS,AUTHENTICATE_FAIL,AUTHENTICATE_SUCCESS} from './type'
 export const register_action=(
     first_name,
     last_name,
@@ -115,7 +115,7 @@ export const logout_action=()=>async dispatch=>{
     }
 }
 
-export const load_user=()=>async dispatch=>{
+export const load_user_action=()=>async dispatch=>{
     try{
         const res=await fetch('/api/account/user',{
             method:"GET",
@@ -136,8 +136,35 @@ export const load_user=()=>async dispatch=>{
         }
     }
     catch(err){
+        console.log(err)
         dispatch({
             type:LOAD_USER_FAIL
+        })
+    }
+}
+export const check_auth_status=()=>async dispatch=>{
+    try{
+        const res=await fetch('/api/account/verify',{
+            method:"GET",
+            headers:{
+                'Accept':'application/json'
+            }
+        })
+        if(res.status===200){
+            dispatch({
+                type:AUTHENTICATE_SUCCESS
+            })
+            dispatch(load_user_action())
+        }
+        else{
+            dispatch({
+                type:AUTHENTICATE_FAIL
+            })
+        }
+    }
+    catch(err){
+        dispatch({
+            type:AUTHENTICATE_FAIL
         })
     }
 }

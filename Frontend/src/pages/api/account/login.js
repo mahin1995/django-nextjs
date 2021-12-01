@@ -16,7 +16,6 @@ export default async (req,res)=>{
                         body:body 
                     })
                     const data=await apiRes.json();
-                    console.log(data)
                     if(apiRes.status===200){
                             res.setHeader('Set-Cookie',[
                                 cookie.serialize(

@@ -28,7 +28,6 @@ export default  async (req,res)=>{
                 body:body
             })
             const data =await apiRes.json();
-            console.log(data)
             if(apiRes.status===2001){
                 return res.status(201).json({success:data.success})
             }else{

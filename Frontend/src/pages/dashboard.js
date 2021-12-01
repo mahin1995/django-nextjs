@@ -1,15 +1,19 @@
 import Layout from "../hocs/Layout";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const Dashboard=()=>{
     const router=useRouter()
     const isAuthenticated= useSelector(state => state.auth.isAuthenticated)
     const user= useSelector(state => state.auth.user)
     const loading= useSelector(state => state.auth.loading)
-    if(typeof window !=='undefind' &&!loading &&!isAuthenticated){
-        router.push("/login")
-    }
+    useEffect(() => {
+        if(typeof window !=='undefind' &&!loading &&!isAuthenticated){
+            router.push("/login")
+        }
+    }, [])
+   
    return(
     <Layout
     title="Http only auth | Dashboard"

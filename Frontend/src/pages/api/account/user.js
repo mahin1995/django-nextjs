@@ -6,21 +6,23 @@ export default async (req,res)=>{
     if(req.method==='GET'){
         const cookies=cookie.parse(req.headers.cookie??'')
         const access=cookies.access??false;
-        console.log(access)
+        console.log("access",access)
         if(access==false){
             return res.status(404).json({
                 error:"User unauthorize to make this request"
             })
         }
         try{
-            const apiRes=await fetch(`${APP_URL}/api/account/userView`,{
+            const apiRes=await fetch(`http://127.0.0.1:8000/api/account/userView`,{
                 method:"GET",
                 headers:{
                     "Accept":'application/json',
-                    "Authoriztion":`Bearer ${access}`
+                    "Authorization":`Bearer ${access}`
                 }
             })
+            console.log(apiRes.status)
             const data =apiRes.json()
+            console.log(data)
             if(apiRes.status===200){
                 return res.status(200).json({
                     user:data.user
@@ -31,6 +33,7 @@ export default async (req,res)=>{
                 })
             }
         }catch(err){
+            console.log(err)
             return res.status(500).json({
                 error:"Something went wrong in retriving user"
             })
