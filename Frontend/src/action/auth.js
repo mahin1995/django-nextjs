@@ -1,4 +1,4 @@
-import {REGISTER_SUCCESS,REGISTER_FAIL,SET_AUTH_LOADING,REMOVE_AUTH_LOADING,LOGIN_FAIL,LOGIN_SUCCESS,RESET_REGISTER_SUCCESS,LOGOUT_FAIL, LOGOUT_SUCCESS,LOAD_USER_FAIL,LOAD_USER_SUCCESS,AUTHENTICATE_FAIL,AUTHENTICATE_SUCCESS} from './type'
+import {REGISTER_SUCCESS,REGISTER_FAIL,SET_AUTH_LOADING,REMOVE_AUTH_LOADING,LOGIN_FAIL,LOGIN_SUCCESS,RESET_REGISTER_SUCCESS,LOGOUT_FAIL, LOGOUT_SUCCESS,LOAD_USER_FAIL,LOAD_USER_SUCCESS,AUTHENTICATE_FAIL,AUTHENTICATE_SUCCESS,REFRESH_FAIL,REFRESH_SUCCESS} from './type'
 export const register_action=(
     first_name,
     last_name,
@@ -166,5 +166,27 @@ export const check_auth_status=()=>async dispatch=>{
         dispatch({
             type:AUTHENTICATE_FAIL
         })
+    }
+}
+export const rquest_refresh=()=>async dispatch=>{
+    try{
+        const res=await fetch('/api/account/refresh',{
+            method:"GET",
+            headers:{
+                'Accept':'application/json'
+            }
+        })
+        if(res.status===200){
+            dispatch({
+                type:REFRESH_SUCCESS
+            })
+            dispatch(check_auth_status())
+        }
+        else{
+            dispatch({type:REFRESH_FAIL})
+        }
+    }
+    catch(e){
+        dispatch({type:REFRESH_FAIL})
     }
 }
